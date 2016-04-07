@@ -21,10 +21,58 @@
 	Note : Test Cases would be small <25.
 
 */
+#include<malloc.h>
 #include "stdafx.h"
+struct node{
 
-
+	struct node* left;
+	int data;
+	struct node* right;
+};
+void Recurr(struct node* root, int *count);
 int get_steps(int s)
 {
-	return 0;
+	if (s == 0) return 0;
+	int count = 0;
+	struct node* root = NULL;
+	root = (struct node*)malloc(sizeof(struct node));
+	root->data = s;
+	Recurr(root, &count);
+	return count;
+}
+void Recurr(struct node* root, int *count){
+
+
+	if (root->data >= 1){
+
+		struct node* newnode = NULL;
+		newnode = (struct node*)malloc(sizeof(struct node));
+		newnode->left = NULL;
+		newnode->right = NULL;
+		root->left = newnode;
+		newnode->data = root->data - 1;
+		if (newnode->data == 0) {
+			*count = *count + 1;
+		}
+		Recurr(root->left, count);
+
+		if (root->data >= 2){
+			struct node* newnode = NULL;
+			newnode = (struct node*)malloc(sizeof(struct node));
+			newnode->left = NULL;
+			newnode->right = NULL;
+			newnode->data = root->data - 2;
+			if (newnode->data == 0) {
+				*count = *count + 1;
+			}
+			root->right = newnode;
+			Recurr(root->right, count);
+		}
+		else{
+			root->right = NULL;
+		}
+	}
+	else{
+		root->left = NULL;
+	}
 }

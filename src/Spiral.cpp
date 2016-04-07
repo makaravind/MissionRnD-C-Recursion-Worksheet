@@ -33,8 +33,61 @@ Note : Check the function Parameters ,Its a double pointer .
 
 #include "stdafx.h"
 #include<stdlib.h>
-
+#include<malloc.h>
+void spiralPrint(int m, int n, int **a,int *result,int *rptr);
 int *spiral(int rows, int columns, int **input_array)
 {
-	return NULL;
+	if (rows<=0||columns<=0||input_array==NULL) 
+		return NULL;
+
+	int *result = (int*)malloc(sizeof(int)*( (rows - 1)*(columns - 1) ));
+	int index = 0;
+	int x1 = 0;
+	int y1 = 0;
+	spiralPrint(rows, columns, input_array, result, &index);
+	return result;
+}
+void spiralPrint(int m, int n, int **a, int *result, int *rptr)
+{
+	int i, k = 0, l = 0;
+
+	while (k < m && l < n)
+	{
+		/* Print the first row from the remaining rows */
+		for (i = l; i < n; ++i)
+		{
+			result[*rptr] = a[k][i];
+			*rptr = *rptr + 1;
+		}
+		k++;
+
+		/* Print the last column from the remaining columns */
+		for (i = k; i < m; ++i)
+		{
+			result[*rptr] = a[i][n - 1];
+			*rptr = *rptr + 1;
+		}
+		n--;
+
+		/* Print the last row from the remaining rows */
+		if (k < m)
+		{
+			for (i = n - 1; i >= l; --i)
+			{
+				result[*rptr] = a[m - 1][i];
+				*rptr = *rptr + 1;
+			}
+			m--;
+		}
+
+		/* Print the first column from the remaining columns */
+		if (l < n)
+		{
+			for (i = m - 1; i >= k; --i)
+			{
+				result[*rptr] = a[i][l];
+			}
+			l++;
+		}
+	}
 }
